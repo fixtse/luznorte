@@ -1,4 +1,4 @@
-package pe.magnatech.sftwlnorte;
+package pe.magnatech.sftwlnorte.Login;
 
 /**
  * Created by fixt on 20/11/16.

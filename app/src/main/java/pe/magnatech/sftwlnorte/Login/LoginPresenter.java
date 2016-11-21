@@ -1,4 +1,4 @@
-package pe.magnatech.sftwlnorte;
+package pe.magnatech.sftwlnorte.Login;
 
 import android.util.Patterns;
 
@@ -18,14 +18,14 @@ public class LoginPresenter {
         boolean valid = true;
 
 
-        if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if(email.isEmpty()){
             loginView.errMail("Ingresa un email valido");
             valid = false;
         }else{
             loginView.errMail(null);
         }
 
-        if(password.isEmpty() || password.length() < 4 || password.length() > 10){
+        if(password.isEmpty()){
             loginView.errPass("Ingrese un valor alfanumerico entre 4 y 10 carácteres");
             valid = false;
         }else{

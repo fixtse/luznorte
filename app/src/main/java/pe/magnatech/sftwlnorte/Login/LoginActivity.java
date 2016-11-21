@@ -1,9 +1,17 @@
-package pe.magnatech.sftwlnorte;
+package pe.magnatech.sftwlnorte.Login;
 
 import android.app.ProgressDialog;
-import pe.magnatech.*;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+
+import pe.magnatech.sftwlnorte.MainActivity;
+import pe.magnatech.sftwlnorte.R;
+import pe.magnatech.sftwlnorte.Remote.Service;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -59,17 +67,33 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @Override
     public void login(String email, String password) {
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Cargando... Por favor espere");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        String usuario = eteUsuario.getText().toString().trim();
-        password = etePassword.getText().toString();
-        LoginRequest loginRequest = New LoginRequest();
-        setPresenter(new LoginPresenterImp(this));
-        lPresenter.obtenerLogin(user);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://ws-software1.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Service service = retrofit.create(Service.class);
+        service.obtenerLogin(new LoginRequest(email,password)).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                dialog.dismiss();
+                if (response.body() == 1){
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    eteUsuario.setText(null);
+                    etePassword.setText(null);
+                    startActivity(intent);
+                }else if (response.body()==2){
+                    Toast.makeText(LoginActivity.this, "Usuario no autorizado", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(LoginActivity.this, "Usuario/contraseña errado", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

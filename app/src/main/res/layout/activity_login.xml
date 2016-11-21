@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:src="@drawable/logomagnatech"
+        android:src="@drawable/luzdelnorte_logo21"
         android:layout_weight="2"
         android:layout_gravity="bottom"
         android:layout_marginLeft="16dp"
@@ -75,19 +75,6 @@
             android:text="Ingresar"
             android:layout_margin="16dp"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/restCon"
-        android:textStyle="italic"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/botones"
-        android:layout_marginBottom="5dp"
-        android:onClick="onContClicked"
-        />
-
 
 
 
